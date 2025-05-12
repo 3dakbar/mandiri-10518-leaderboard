@@ -1,13 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Leaderboard Mandiri 10518</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard Mandiri 10518 - B&G Tower</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card {
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-r from-indigo-900 to-blue-900 min-h-screen text-white p-8">
-  <h1 class="text-4xl font-bold mb-6">🏆 Leaderboard Akuisisi B&G Tower</h1>
-  <div id="leaderboard" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-  <script src="script.js"></script>
+<body class="text-white p-6">
+  <h1 class="text-4xl font-bold text-center mb-8 animate-bounce">🏦 Leaderboard Akuisisi B&G Tower</h1>
+  <div id="leaderboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+  <script>
+    const data = [
+      { name: "Aca", team: "Team 1", acquisition: 1200000000, target: 1500000000 },
+      { name: "Amel", team: "Team 1", acquisition: 950000000, target: 1500000000 },
+      { name: "Ami", team: "Team 2", acquisition: 1300000000, target: 1500000000 },
+      { name: "Deby", team: "Team 2", acquisition: 700000000, target: 1500000000 },
+      { name: "Amri", team: "Team 3", acquisition: 1600000000, target: 1500000000 },
+      { name: "Sani", team: "Team 3", acquisition: 1100000000, target: 1500000000 },
+      { name: "Jihan", team: "Team 1", acquisition: 1000000000, target: 1500000000 },
+      { name: "Ester", team: "Team 2", acquisition: 1150000000, target: 1500000000 }
+    ];
+
+    const container = document.getElementById('leaderboard');
+    const sorted = data.sort((a, b) => b.acquisition - a.acquisition);
+
+    sorted.forEach((user, index) => {
+      const percent = (user.acquisition / user.target) * 100;
+      const card = document.createElement('div');
+      card.className = 'card p-6 rounded-xl shadow-xl hover:scale-105 transition transform duration-300';
+      card.innerHTML = `
+        <h2 class="text-2xl font-semibold">#${index + 1} ${user.name} <span class="text-sm text-gray-300">(${user.team})</span></h2>
+        <p class="mt-2">Target: Rp ${user.target.toLocaleString('id-ID')}</p>
+        <p class="mb-2">Pencapaian: Rp ${user.acquisition.toLocaleString('id-ID')}</p>
+        <div class="w-full bg-gray-700 rounded-full h-3">
+          <div class="bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 h-3 rounded-full" style="width: ${Math.min(percent, 100)}%"></div>
+        </div>
+        <p class="mt-1 text-sm">${percent.toFixed(2)}%</p>
+        ${percent >= 100 ? '<p class="text-green-400 font-bold mt-2">🏅 Target Tercapai!</p>' : ''}
+      `;
+      container.appendChild(card);
+    });
+  </script>
 </body>
 </html>
